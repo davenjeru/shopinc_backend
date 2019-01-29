@@ -10,6 +10,7 @@ module.exports = {
     instances: os.cpus().length,
     autorestart: true,
     watch: true,
+    ignore_watch: ['swagger.json'],
     max_memory_restart: '1G',
     env: {
       NODE_ENV: 'development'

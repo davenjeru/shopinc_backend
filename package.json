@@ -1,27 +1,62 @@
 {
   "name": "shopinc_backend",
   "version": "1.0.0",
+  "private": true,
   "description": "The backend codebase for the shop inc. application.",
   "main": "src/index.js",
   "author": "Dave Mathews Njeru",
   "license": "MIT",
   "scripts": {
     "start:dev:balanced": "pm2-dev --interpreter babel-node ecosystem.config.js",
-    "start:dev": "nodemon -x 'babel-node src'"
+    "serve:watch": "nodemon -x 'babel-node $NODE_DEBUG_OPTION src'",
+    "start:dev": "yarn document:watch & yarn serve:watch",
+    "db:seed": "node -r babel-register node_modules/.bin/sequelize db:seed:all",
+    "db:migrate": "node -r babel-register node_modules/.bin/sequelize db:migrate",
+    "db:rollback": "node -r babel-register node_modules/.bin/sequelize db:migrate:undo:all",
+    "db:rollmigrate": "yarn db:rollback && yarn db:migrate",
+    "db:pristine": "yarn db:rollmigrate && yarn db:seed",
+    "document": "node_modules/.bin/jsdoc -r src -d ./docs",
+    "document:watch": "nodemon -i 'docs/' --watch '*.js' -x 'yarn document'"
   },
   "dependencies": {
+    "@nmarks/jsdoc-parse": "^1.2.7",
+    "babel-cli": "^6.26.0",
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
     "debug": "~4.1.1",
     "dotenv": "~6.2.0",
-    "express": "~4.16.4"
+    "express": "~4.16.4",
+    "jsdoc": "^3.5.5",
+    "jsdoc-cli": "^1.0.1",
+    "lodash": "^4.17.11",
+    "morgan": "^1.9.1",
+    "pg": "^7.8.0",
+    "pg-hstore": "^2.3.2",
+    "sequelize": "^4.42.0",
+    "sequelize-cli": "^5.4.0",
+    "swagger-ui-express": "^4.0.2"
   },
   "devDependencies": {
-    "babel-eslint": "^10.0.1",
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-preset-env": "^1.7.0",
-    "eslint": "^5.12.1",
-    "eslint-config-airbnb-base": "^13.1.0",
-    "eslint-plugin-import": "^2.14.0",
-    "jest": "^23.6.0",
-    "nodemon": "^1.18.9"
+    "babel-eslint": "~10.0.1",
+    "babel-plugin-transform-object-rest-spread": "~6.26.0",
+    "babel-preset-env": "~1.7.0",
+    "eslint": "~5.12.1",
+    "eslint-config-airbnb-base": "~13.1.0",
+    "eslint-plugin-import": "~2.14.0",
+    "jest": "~23.6.0",
+    "nodemon": "~1.18.9"
+  },
+  "optionalDependencies": {
+    "cli-highlight": "~2.0.0"
+  },
+  "engines": {
+    "node": "11.x"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "docs/*",
+      "swagger.json"
+    ],
+    "delay": "2500"
   }
 }

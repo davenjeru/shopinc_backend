@@ -55,10 +55,17 @@ typings/
 .yarn-integrity
 
 # dotenv environment variables file
-.env
+*.env
 
 # next.js build output
 .next
 
 # Webstorm settings
 .idea/
+pristine-db.sh
+
+# Documentations
+docs/
+swagger.json
+swagger_schema.json
+dump.rdb

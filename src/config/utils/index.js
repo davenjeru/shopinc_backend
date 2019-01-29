@@ -1,9 +1,14 @@
 import dotenv from 'dotenv';
 import VariableNotFound from '../../exceptions/configExceptions';
+import generalOptionalVariables from './optionalVariables';
+import generalRequiredVariables from './requiredVariables';
 
 dotenv.config();
 
-export default (requiredVariables = [], optionalVariables = {}) => {
+export default (
+  requiredVariables = generalRequiredVariables,
+  optionalVariables = generalOptionalVariables
+) => {
   requiredVariables.forEach((variable) => {
     if (!process.env[variable]) {
       throw new VariableNotFound(variable);
